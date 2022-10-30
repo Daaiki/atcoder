@@ -73,6 +73,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/tstl@npm:^1.5.7":
+  version: 1.5.7
+  resolution: "@types/tstl@npm:1.5.7"
+  dependencies:
+    tstl: "*"
+  checksum: 9541abbcdad2994a1e0a5c573f172a4789519f8eaa432a6e72522a919e1edafeb804f8e0814b24bd1928cd01583ac0959a72c1ed998d3beb2076a60c431a18ad
+  languageName: node
+  linkType: hard
+
 "acorn-walk@npm:^8.1.1":
   version: 8.2.0
   resolution: "acorn-walk@npm:8.2.0"
@@ -94,7 +103,9 @@ __metadata:
   resolution: "app@workspace:."
   dependencies:
     "@types/node": ^18.8.3
+    "@types/tstl": ^1.5.7
     ts-node: ^10.9.1
+    tstl: ^2.5.12
     typescript: ^4.8.4
   languageName: unknown
   linkType: soft
@@ -162,6 +173,13 @@ __metadata:
     ts-node-transpile-only: dist/bin-transpile.js
     ts-script: dist/bin-script-deprecated.js
   checksum: 090adff1302ab20bd3486e6b4799e90f97726ed39e02b39e566f8ab674fd5bd5f727f43615debbfc580d33c6d9d1c6b1b3ce7d8e3cca3e20530a145ffa232c35
+  languageName: node
+  linkType: hard
+
+"tstl@npm:*, tstl@npm:^2.5.12":
+  version: 2.5.12
+  resolution: "tstl@npm:2.5.12"
+  checksum: 03b5f766d3421f0a51b63a01fab96b0ef4f25629e98834f154e86b7649d103ed759c0c53194cfd0a2c442e028d7fc0d35d3c37bdec818274e97e6fbc295aac43
   languageName: node
   linkType: hard
 

@@ -1,8 +1,10 @@
 import { readFileSync } from 'fs'
-import tstl from 'tstl'
-
+// wa
 const main = (arg: string) => {
-  const N = arg.trim()
+  const S = arg.trim().split('\n').map(line => line.split(''))
+
+  console.log(S)
+
 }
 
 main(readFileSync('/dev/stdin', 'utf-8'))

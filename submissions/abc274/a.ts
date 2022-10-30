@@ -1,8 +1,11 @@
 import { readFileSync } from 'fs'
-import tstl from 'tstl'
 
 const main = (arg: string) => {
-  const N = arg.trim()
+  const [A, B] = arg.trim().split(' ').map(x => +x)
+
+  const ans = (B / A).toFixed(3)
+  
+  console.log(ans)
 }
 
 main(readFileSync('/dev/stdin', 'utf-8'))
