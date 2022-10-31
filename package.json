@@ -3,7 +3,9 @@
   "packageManager": "yarn@3.2.3",
   "scripts": {
     "tsc": "tsc",
-    "build": "ts-node"
+    "build": "ts-node",
+    "login": "acc login",
+    "pull": "acc new"
   },
   "devDependencies": {
     "@types/node": "^18.8.3",
@@ -12,6 +14,7 @@
     "typescript": "^4.8.4"
   },
   "dependencies": {
+    "atcoder-cli": "^2.2.0",
     "tstl": "^2.5.12"
   }
 }
