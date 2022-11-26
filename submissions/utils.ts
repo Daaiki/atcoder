@@ -10,9 +10,9 @@ export const enumDiv = (n: number) => {
   let ret: number[] = []
 
   for (let i = 1; i * i <= n; i++) {
-    if (n % i == 0) {
+    if (n % i === 0) {
       ret.push(i)
-      if (i * i != n) ret.push(n / i)
+      if (i * i !==n) ret.push(n / i)
     }
   }
 
@@ -68,6 +68,20 @@ export const primeFactor = (n: number) => {
     ret.push(make_pair(i, tmp))
   }
   if (n != 1) ret.push(make_pair(n, 1))
+
+  return ret
+}
+
+/**
+ * 累積和の配列を返す
+ * @param array 
+ * @return - arrayの累積和
+ */
+export const accumulate = (array: number[]) => {
+  const ret: number[] = [0]
+  for (let i = 0; i < array.length; i++) {
+    ret[i+1] = ret[i] + array[i]
+  }
 
   return ret
 }
