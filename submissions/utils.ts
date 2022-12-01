@@ -74,14 +74,38 @@ export const primeFactor = (n: number) => {
 
 /**
  * 累積和の配列を返す
- * @param array 
+ * @param n, array
  * @return - arrayの累積和
  */
-export const accumulate = (array: number[]) => {
+export const accumulate = (n: number, array: number[]) => {
   const ret: number[] = [0]
-  for (let i = 0; i < array.length; i++) {
+  for (let i = 0; i < n; i++) {
     ret[i+1] = ret[i] + array[i]
   }
 
   return ret
 }
+
+/**
+ * 二次元累積和を求める
+ * @param matrix 
+ * @return - matrixの累積和
+ */
+export const accumulates = (row: number, column: number, matrix: number[][]): number[][] => {
+  const sum = [...Array(row + 1)].map(() => Array(column + 1).fill(0))
+
+  for (let i = 1; i <= row; i++) {
+    for (let j = 1; j <= column; j++) {
+      sum[i][j] = sum[i][j - 1] + sum[i - 1][j] - sum[i-1][j-1] + matrix[i - 1][j - 1]
+    }
+  }
+
+  return sum
+}
+
+/**
+ * 行列を転置する関数
+ * @param a - 二次元配列
+ * @return - 転置された二次元配列
+ */
+export const transpose = (a: string[][] | number[][]) => a[0].map((_, c) => a.map(r => r[c]))
