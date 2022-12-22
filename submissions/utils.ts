@@ -26,28 +26,31 @@ export const enumDiv = (n: number) => {
  */
 export const isPrime = (n: number) => {
   for (let i = 2; i * i <= n; i++) {
-    if (n % i === 0) return false;
+    if (n % i === 0) return false
   }
-  return true;
+  return true
 }
 
 /**
  * n以下の素数を全て見つけ出す: O(nloglogn)
  * エラトステネスの篩
  * @param n - 整数n
- * @return - nまでの数字が素数か判定したベクトル（i番目がtrueならiは素数）
+ * @return - nまでの素数を列挙
  */
-export const makeIsPrime = (n: number) => {
-  let prime: boolean[] = Array(n).fill(false)
-  if (n >= 0) prime[0] = false
-  if (n >= 1) prime[1] = false
-  for (let i = 2; i * i <= n; i++) {
-    if (!prime[i]) continue
-    for (let j = i * i; j <= n; j += i) {
-      prime[j] = false
+export const makePrime = (n: number) => {
+  const primes = new Array(n + 1).fill(true)
+  const ret: number[] = []
+
+  for (let i = 2; i <= n; i++) {
+    if (primes[i]) {
+      ret.push(i)
+      for (let j = i; j*i <= n+1; j++) {
+        primes[j*i] = false;
+      }
     }
   }
-  return prime
+
+  return ret
 }
 
 /**
@@ -59,15 +62,15 @@ export const primeFactor = (n: number) => {
   let ret: Pair<number, number>[] = []
 
   for (let i = 2; i * i <= n; i++) {
-    if (n % i != 0) continue
-    let tmp = 0
-    while (n % i == 0) {
-      tmp++
+    if (n % i !== 0) continue
+    let ex = 0
+    while (n % i === 0) {
+      ex++
       n /= i
     }
-    ret.push(make_pair(i, tmp))
+    ret.push(make_pair(i, ex))
   }
-  if (n != 1) ret.push(make_pair(n, 1))
+  if (n !== 1) ret.push(make_pair(n, 1))
 
   return ret
 }
@@ -109,3 +112,117 @@ export const accumulates = (row: number, column: number, matrix: number[][]): nu
  * @return - 転置された二次元配列
  */
 export const transpose = (a: string[][] | number[][]) => a[0].map((_, c) => a.map(r => r[c]))
+
+/**
+ * 組み合わせを列挙する関数
+ * @param arr - 配列
+ * @param k - 組み合わせの数
+ * @return - 組み合わせを列挙した二次元配列
+ */
+const combination = <T>(arr: T[], k: number): T[][] => {
+  let ret = []
+  if (arr.length < k) {
+    return []
+  }
+  if (k === 1) {
+    for (let i = 0; i < arr.length; i++) {
+      ret[i] = [arr[i]]
+    }
+  } else {
+    for (let i = 0; i < arr.length - k + 1; i++) {
+      let row = combination(arr.slice(i + 1), k - 1)
+      for (let j = 0; j < row.length; j++) {
+        ret.push([arr[i]].concat(row[j]))
+      }
+    }
+  }
+  return ret
+}
+
+// 組み合わせの総数
+const combNum = (n: number, k: number) => {
+  if (n < k) {
+    return 0
+  }
+  const result = factorial(n) / (factorial(k) * factorial(n-k))
+  return result 
+}
+
+// 階乗
+const factorial = (n: number) => {
+  let ret = 1
+  for (let i = 2; i <= n; i++) {
+    ret *= i
+  }
+  return ret
+}
+
+/**
+ * グラフのクラス
+ */
+class Graph<T extends string | number> {
+  adjacencyList: {
+    [key in string | number]: T[]
+  }
+
+  constructor() {
+    this.adjacencyList = {}
+  }
+  
+  // nodeを追加する
+  addVertex(vertex: T) {
+    this.adjacencyList[vertex] = []
+  }
+
+  // エッジを追加する, 有向の場合は片方追加する
+  addEdge(v1: T, v2: T) {
+    this.adjacencyList[v1].push(v2)
+    this.adjacencyList[v2].push(v1)
+  }
+
+  // エッジを削除する, 有向の場合は片方追加する
+  removeEdge(vertex1: T, vertex2: T) {
+    this.adjacencyList[vertex1] = this.adjacencyList[vertex1].filter(
+      v => v !== vertex2
+    )
+    this.adjacencyList[vertex2] = this.adjacencyList[vertex2].filter(
+      v => v !== vertex1
+    )
+  }
+
+  //ノードを削除
+  removeVertex(vertex: T) {
+    while (this.adjacencyList[vertex].length) {
+      const adjacentVertex = this.adjacencyList[vertex].pop()
+      if (adjacentVertex) this.removeEdge(vertex, adjacentVertex)
+    }
+    delete this.adjacencyList[vertex]
+  }
+
+  dfs(start: T) {
+    //ノードを格納するスタック
+    const stack = [start];
+    //訪れた順番を格納
+    const result: T[] = []
+    //訪れたフラグ
+    const visited: {[key in string | number]: boolean} = {}
+    //訪問済みフラグを立てる
+    visited[start] = true;
+ 
+    while (stack.length) {
+      // 現在のノード
+      let currentVertex = stack.pop()
+
+      if (currentVertex) {
+        result.push(currentVertex)
+        this.adjacencyList[currentVertex].forEach((neighbor: T) => {
+          if (!visited[neighbor]) {
+            visited[neighbor] = true;
+            stack.push(neighbor)
+          }
+        })
+      }
+    }
+    return result
+  }
+}
